@@ -1,0 +1,86 @@
+body:before {
+    content: "";
+    position: fixed;
+    top: -5%;
+    left: -5%;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+
+    display: block;
+    background-image: url("./background.jpg");
+    background-size: contain;
+    background-position-x: calc(50vw - 50vh);
+    background-position-y: 80px;
+    background-repeat: no-repeat;
+    background-color: #e4d9c7;
+    width: 110%;
+    height: 110%;
+}
+  
+body {
+    overflow-x: hidden;
+    margin: 0px;
+}
+
+* {
+    font-family: Arial;
+    font-size: 12pt;
+}
+
+h1 {
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    font-size: 30px;
+}
+
+.topBanner {
+    left: 0px;
+    top: 0px;
+    width: 100vw;
+    height: 70px;
+    background-color: #ccc;
+}
+
+h2 {
+    font-size: 14pt;
+    margin: 0px;
+    position: relative;
+    left: 10px;
+}
+
+p {
+    margin: 0px;
+}
+
+.main {
+    width: fit-content;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+    margin: 5px;
+    padding: 5px;
+
+    border: 3px solid black;
+    background-color: rgba(255,255,255,0.7);
+
+    border-radius: 5px;
+}
+
+/* anim */
+.slideIn {
+    position: relative;
+    left: 0vw;
+    animation-name: slide;
+}
+
+@keyframes slide {
+    from {
+        left: 100vw;
+    }
+    to {
+        left: 0vw;
+    }
+}
