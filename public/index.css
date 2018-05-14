@@ -40,7 +40,28 @@ h1 {
     top: 0px;
     width: 100vw;
     height: 70px;
-    background-color: #ccc;
+    background-color: #dac17e;
+}
+
+.nav {
+    width: 100vw;
+    height: 30px;
+    background-color: #dac89a;
+}
+
+.navHolder {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+a:link {
+    color: #503017;
+}
+
+a:visited {
+    color: #8f2931;
 }
 
 h2 {
@@ -74,6 +95,7 @@ p {
     position: relative;
     left: 0vw;
     animation-name: slide;
+    animation-fill-mode: backwards;
 }
 
 @keyframes slide {
