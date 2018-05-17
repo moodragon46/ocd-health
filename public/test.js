@@ -6,6 +6,17 @@ var started = false;
 var question = 0;
 var questionAnimTimeLeft;
 
+var numberSamplesQ3 = [
+    [83, 72, 1],
+    [2, 36, 53],
+    [9, 89, 32]
+];
+var q3ans = [
+    [false, false, false],
+    [false, false, false],
+    [false, false, false]
+]
+
 var timer;
 
 var mouse = [0,0];
@@ -55,15 +66,13 @@ function renderQuestion(){
     case 3:
         write("Click all the prime numbers. No cheating!",10,50,30);
 
-        var numberSamples = [
-            [83, 72, 1],
-            [2, 36, 53],
-            [9, 89, 32]
-        ];
-
-        for(let y=0;y<numberSamples.length;y++){
-            for(let x=0;x<numberSamples[y].length;x++){
-                drawButton(numberSamples[y][x], 170 + 100 * x, 150 + 80 * y, 70, 40, 20);
+        for(var y=0;y<numberSamplesQ3.length;y++){
+            for(var x=0;x<numberSamplesQ3[y].length;x++){
+                var isHighlight = q3ans[y][x];
+                drawButton(
+                    numberSamplesQ3[y][x], 170 + 100 * x, 150 + 80 * y, 70, 40, 20,
+                    false, isHighlight?'#0c0':'#f40', isHighlight?'#0f0':'#fb0'
+                );
             }
         }
 
@@ -86,6 +95,16 @@ function handleQuestionPress(x,y){
         if(pointInRect(x,y,50, 190, 30, 60)){
             points++;
             nextQuestion();
+        }
+        break;
+    case 3:
+        for(var j=0;j<numberSamplesQ3.length;j++){
+            for(var k=0;k<numberSamplesQ3[j].length;k++){
+                var currentNumber = numberSamplesQ3[j][k];
+                if(clickedButton(currentNumber,x,y)){
+                    q3ans[j][k] = !q3ans[j][k];
+                }
+            }
         }
         break;
     }
@@ -142,7 +161,7 @@ function pointInRect(x1,y1,x2,y2,w2,h2){
 }
 
 function clickedButton(name,x,y){
-    for(let i=0;i<buttons.length;i++){
+    for(var i=0;i<buttons.length;i++){
         if(buttons[i].name === name){
             if(pointInRect(x,y,buttons[i].x,buttons[i].y,buttons[i].w,buttons[i].h)){
                 return true;
@@ -161,9 +180,9 @@ function drawButton(text, x, y, width, height, fontSize, foreCol, backCol, backC
     var textY = y + (height/2) + fontSize/3;
 
     if(pointInRect(mouse[0],mouse[1],x,y,width,height)){
-        ctx.fillStyle = backColHighlight || "#999";
+        ctx.fillStyle = backColHighlight || "#ccc";
     }else {
-        ctx.fillStyle = backCol || '#ccc';
+        ctx.fillStyle = backCol || '#999';
     }
     ctx.fillRect(x,y,width,height);
 
