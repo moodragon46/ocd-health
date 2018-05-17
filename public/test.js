@@ -38,10 +38,21 @@ function renderQuestion(){
 
         drawImg('testA', 10, 10);
         
-        write(Math.ceil(timer)+" seconds left.", 10, 350, 20);
+        var timeVal = Math.ceil(timer);
+        var timeText = Math.ceil(timer)+" seconds left."
+        if(timeVal === 1){
+            timeText = "1 second left.";
+        }
+        write(timeText, 10, 350, 20);
         drawButton("Click here if there is something wrong with this brick wall.", 10, 400, 620, 40, 20);
 
+        if(timer <= 0){
+            nextQuestion();
+        }
+
         break;
+    case 3:
+        
     }
 }
 function handleQuestionPress(x,y){
@@ -53,6 +64,12 @@ function handleQuestionPress(x,y){
             nextQuestion();
         }else if(pointInRect(x,y,50,150,540,40)){
             // press yes
+            nextQuestion();
+        }
+        break;
+    case 2:
+        if(pointInRect(x,y,10,400,620,40)){
+            points++;
             nextQuestion();
         }
         break;
@@ -75,7 +92,7 @@ function nextQuestion(){
 
     switch(question){
     case 2:
-        timer = 5;
+        timer = 8;
         break;
     }
 }
@@ -142,8 +159,8 @@ function render(){
         }
     }else {
         // just started the game
-        var secondsLeft = Math.floor(6 - (now() - started));
-        //var secondsLeft = Math.floor(1 - (now() - started));// for testing
+        // var secondsLeft = Math.floor(6 - (now() - started));
+        var secondsLeft = Math.floor(1 - (now() - started));// for testing
 
         if(secondsLeft <= 0){
             nextQuestion();
