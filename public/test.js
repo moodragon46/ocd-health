@@ -44,7 +44,7 @@ function renderQuestion(){
             timeText = "1 second left.";
         }
         write(timeText, 10, 350, 20);
-        drawButton("Click here if there is something wrong with this brick wall.", 10, 400, 620, 40, 20);
+        write("Click if you notice something on the brick wall.", 10, 400, 20);
 
         if(timer <= 0){
             nextQuestion();
@@ -52,7 +52,21 @@ function renderQuestion(){
 
         break;
     case 3:
-        
+        write("Click all the prime numbers. No cheating!",10,50,30);
+
+        var numberSamples = [
+            [83, 72, 1],
+            [2, 36, 53],
+            [9, 89, 32]
+        ];
+
+        for(let y=0;y<numberSamples.length;y++){
+            for(let x=0;x<numberSamples[y].length;x++){
+                drawButton(numberSamples[y][x], 170 + 100 * x, 150 + 80 * y, 70, 40, 20);
+            }
+        }
+
+        break;
     }
 }
 function handleQuestionPress(x,y){
@@ -68,7 +82,7 @@ function handleQuestionPress(x,y){
         }
         break;
     case 2:
-        if(pointInRect(x,y,10,400,620,40)){
+        if(pointInRect(x,y,50, 190, 30, 60)){
             points++;
             nextQuestion();
         }
