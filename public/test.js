@@ -3,7 +3,7 @@ var questionAnimTime = 1;
 var c, ctx;
 
 var started = false;
-var question = 0;
+var question = 4;
 var questionAnimTimeLeft;
 
 var numberSamplesQ3 = [
@@ -84,6 +84,14 @@ function renderQuestion(){
         }
 
         break;
+    case 4:
+        write("Do you often recur the same action over and over again?", 10, 50, 20);
+        write("For example checking the stuff you've packed several times just in case.", 10, 70, 15, "#444");
+
+        drawButton("No.",50,90,540,40,20);
+        drawButton("Yes...",50,150,540,40,20);
+
+        break;
     }
 }
 function handleQuestionPress(x,y){
@@ -122,6 +130,14 @@ function handleQuestionPress(x,y){
             if(timer < 3){
                 points++;
             }
+            nextQuestion();
+        }
+        break;
+    case 4:
+        if(clickedButton("No.",x,y)){
+            nextQuestion();
+        }else if(clickedButton("Yes...",x,y)){
+            points++;
             nextQuestion();
         }
         break;
