@@ -16,6 +16,7 @@ var q3ans = [
     [false, false, false],
     [false, false, false]
 ]
+var q3pressedDone = false;
 
 var timer;
 
@@ -76,6 +77,12 @@ function renderQuestion(){
             }
         }
 
+        drawButton(q3pressedDone?'Are you sure?':'Done',q3pressedDone?220:270,400,q3pressedDone?200:100,40,20);
+
+        if(q3pressedDone){
+            timer+=dt;
+        }
+
         break;
     }
 }
@@ -84,10 +91,10 @@ function handleQuestionPress(x,y){
     case 1:
         if(clickedButton("No..?",x,y)){
             //Press no
-            points++;
             nextQuestion();
         }else if(clickedButton("Yes!",x,y)){
             // press yes
+            points++;
             nextQuestion();
         }
         break;
@@ -105,6 +112,17 @@ function handleQuestionPress(x,y){
                     q3ans[j][k] = !q3ans[j][k];
                 }
             }
+        }
+
+        if(clickedButton('Done',x,y)){
+            q3pressedDone = true;
+            timer = 0;
+        }
+        if(clickedButton('Are you sure?',x,y)){
+            if(timer < 3){
+                points++;
+            }
+            nextQuestion();
         }
         break;
     }
