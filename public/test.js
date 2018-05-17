@@ -3,7 +3,7 @@ var questionAnimTime = 1;
 var c, ctx;
 
 var started = false;
-var question = 4;
+var question = 0;
 var questionAnimTimeLeft;
 
 var numberSamplesQ3 = [
@@ -92,6 +92,13 @@ function renderQuestion(){
         drawButton("Yes...",50,150,540,40,20);
 
         break;
+    case 5:
+        write("Click on the picture that best describes the way you order your pencils.", 10, 50, 15);
+
+        drawImg('q5a', 0, 40);
+        drawImg('q5b', 340, 40);
+        drawImg('q5c', 0, 250);
+        break;
     }
 }
 function handleQuestionPress(x,y){
@@ -141,6 +148,20 @@ function handleQuestionPress(x,y){
             nextQuestion();
         }
         break;
+    case 5:
+        if(pointInRect(x,y,0,40,300,210)){
+            // A
+            points+=2;
+            nextQuestion();
+        }else if(pointInRect(x,y,340,40,300,210)){
+            // B
+            points+=1;
+            nextQuestion();
+        }else if(pointInRect(x,y,0,250,300,210)){
+            // C
+            nextQuestion();
+        }
+        break;
     }
 }
 
@@ -183,7 +204,7 @@ function loadImgs(imgNames, onload){
             imgs[imgNames[i]].onload = onload;
         }
 
-        imgs[imgNames[i]].src = 'images/'+imgNames[i]+'.jpg';
+        imgs[imgNames[i]].src = 'images/'+imgNames[i]+'.png';
     }
 }
 function drawImg(imgName,x,y){
@@ -236,16 +257,48 @@ function render(){
         write("OCD TEsT", 150, 240, 60);
         write("Click to sTart", 200, 300, 30);
     }else if(question > 0){
-        if(questionAnimTimeLeft > 0){
-            questionAnimTimeLeft -= dt;
-            renderQuestionAnim("Question "+question,1-(questionAnimTimeLeft/questionAnimTime));
+        if(question >= 6){
+            write("You are awarded an OCD rating of...", 10, 50, 25);
+            write(points+"/6", 200, 200, 100);
+            
+            var resultText;
+            switch(points){
+            case 0:
+                resultText = "You are very likely not to have OCD.";
+                break;
+            case 1:
+                resultText = "You may have a slight form of OCD.";
+                break;
+            case 2:
+                resultText = "You could have a minor case of OCD.";
+                break;
+            case 3:
+                resultText = "You probably have a minor case of OCD.";
+                break;
+            case 4:
+                resultText = "You are very likely to have a minor case of OCD.";
+                break;
+            case 5:
+                resultText = "You are very likely to have OCD.";
+                break;
+            case 6:
+                resultText = "You are very likely to have OCD in multiple areas.";
+                break;
+            }
+
+            write(resultText, 10, 400, 25);
         }else {
-            renderQuestion();
+            if(questionAnimTimeLeft > 0){
+                questionAnimTimeLeft -= dt;
+                renderQuestionAnim("Question "+question,1-(questionAnimTimeLeft/questionAnimTime));
+            }else {
+                renderQuestion();
+            }
         }
     }else {
         // just started the game
-        // var secondsLeft = Math.floor(6 - (now() - started));
-        var secondsLeft = Math.floor(1 - (now() - started));// for testing
+        var secondsLeft = Math.floor(6 - (now() - started));
+        // var secondsLeft = Math.floor(1 - (now() - started));// for testing
 
         if(secondsLeft <= 0){
             nextQuestion();
@@ -263,7 +316,7 @@ window.onload = function(){
     c = this.document.getElementById("c");
     ctx = c.getContext("2d");
 
-    loadImgs(['testA'],function(){
+    loadImgs(['testA', 'q5a', 'q5b', 'q5c'],function(){
         tick();
 
         requestAnimationFrame(render);
