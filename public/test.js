@@ -9,6 +9,7 @@ var questionAnimTimeLeft;
 var timer;
 
 var mouse = [0,0];
+var buttons = [];
 
 var points = 0;
 
@@ -72,11 +73,11 @@ function renderQuestion(){
 function handleQuestionPress(x,y){
     switch(question){
     case 1:
-        if(pointInRect(x,y,50,90,540,40)){
+        if(clickedButton("No..?",x,y)){
             //Press no
             points++;
             nextQuestion();
-        }else if(pointInRect(x,y,50,150,540,40)){
+        }else if(clickedButton("Yes!",x,y)){
             // press yes
             nextQuestion();
         }
@@ -140,6 +141,19 @@ function pointInRect(x1,y1,x2,y2,w2,h2){
     return x1>x2 && x1<x2+w2 && y1>y2 && y1<y2+h2;
 }
 
+function clickedButton(name,x,y){
+    for(let i=0;i<buttons.length;i++){
+        if(buttons[i].name === name){
+            if(pointInRect(x,y,buttons[i].x,buttons[i].y,buttons[i].w,buttons[i].h)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+function clearButtons(){
+    buttons = [];
+}
 function drawButton(text, x, y, width, height, fontSize, foreCol, backCol, backColHighlight){
     //text position
     var textSize = ctx.measureText(text);
@@ -154,9 +168,13 @@ function drawButton(text, x, y, width, height, fontSize, foreCol, backCol, backC
     ctx.fillRect(x,y,width,height);
 
     write(text,textX,textY,fontSize,foreCol);
+
+    // Add to buttons
+    buttons.push({name:text, x:x, y:y, w:width, h:height});
 }
 
 function render(){
+    clearButtons();
     tick();
     ctx.fillStyle = "white";
     ctx.fillRect(0,0,640,480);
